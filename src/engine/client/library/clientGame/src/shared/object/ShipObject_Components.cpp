@@ -427,6 +427,13 @@ int ShipObject::getWeaponAmmoType(int chassisSlot) const
 		return static_cast<int>((*it).second);
 	return -1;
 }
+int ShipObject::getWeaponProjectileIndex(int chassisSlot) const
+{
+	Archive::AutoDeltaMap<int, int>::const_iterator const it = m_weaponProjectileIndex.find(chassisSlot);
+	if (it != m_weaponProjectileIndex.end())
+		return static_cast<int>((*it).second);
+	return 16;
+}
 
 //----------------------------------------------------------------------
 
@@ -803,7 +810,7 @@ int ShipObject::getProjectileIndexForWeapon(int const weaponIndex) const
 	if (componentCrc == 0)
 		return -1;
 
-	return ShipComponentWeaponManager::getProjectileIndex(componentCrc);
+	return getWeaponProjectileIndex(weaponChassisSlotType);
 }
 
 //----------------------------------------------------------------------

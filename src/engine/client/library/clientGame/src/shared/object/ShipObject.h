@@ -281,6 +281,7 @@ public:
 	int getWeaponAmmoCurrent(int chassisSlot) const;
 	int getWeaponAmmoMaximum(int chassisSlot) const;
 	int getWeaponAmmoType(int chassisSlot) const;
+	int getWeaponProjectileIndex(int chassisSlot) const;
 
 	float getWeaponProjectileSpeed (int weaponIndex) const;
 	int getProjectileIndexForWeapon(int weaponIndex) const;
@@ -561,6 +562,7 @@ private:
 	Archive::AutoDeltaPackedMap<int, int>       m_weaponAmmoCurrent;
 	Archive::AutoDeltaPackedMap<int, int>       m_weaponAmmoMaximum;
 	Archive::AutoDeltaPackedMap<int, uint32>    m_weaponAmmoType;
+	Archive::AutoDeltaPackedMap<int, int>       m_weaponProjectileIndex;
 
 	//-- shields
 	//-- The following maps have one entry per installed shield.

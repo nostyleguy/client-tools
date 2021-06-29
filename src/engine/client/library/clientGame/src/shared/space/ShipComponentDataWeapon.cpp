@@ -32,7 +32,8 @@ m_weaponEnergyPerShot        (10.0f),
 m_weaponRefireRate           (0.5f),
 m_weaponAmmoCurrent          (0),
 m_weaponAmmoMaximum          (0),
-m_weaponAmmoType             (0)
+m_weaponAmmoType             (0),
+m_weaponProjectileIndex      (0)
 {
 }
 
@@ -58,6 +59,7 @@ bool ShipComponentDataWeapon::readDataFromShip      (int chassisSlot, ShipObject
 	m_weaponAmmoCurrent           = ship.getWeaponAmmoCurrent          (chassisSlot);
 	m_weaponAmmoMaximum           = ship.getWeaponAmmoMaximum          (chassisSlot);
 	m_weaponAmmoType              = ship.getWeaponAmmoType             (chassisSlot);
+	m_weaponProjectileIndex       = ship.getWeaponProjectileIndex(chassisSlot);
 	return true;
 }
 
@@ -78,13 +80,15 @@ void ShipComponentDataWeapon::printDebugString      (Unicode::String & result, U
 		"%sEffectivenessArmor:    %f\n"
 		"%sEnergyPerShot:         %f\n"
 		"%sRefireRate:            %f\n"
-		"%sAmmo:                  (%lu) %d/%d\n",
+		"%sAmmo:                  (%lu) %d/%d\n"
+		"%sProjectileIndex:       %d\n",
 		nPad.c_str (), m_weaponDamageMaximum, m_weaponDamageMinimum,
 		nPad.c_str (), m_weaponEffectivenessShields,
 		nPad.c_str (), m_weaponEffectivenessArmor,
 		nPad.c_str (), m_weaponEnergyPerShot,
 		nPad.c_str (), m_weaponRefireRate,
-		nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum);
+		nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum,
+		nPad.c_str(),  m_weaponProjectileIndex);
 
 	result += Unicode::narrowToWide (buf);
 }
@@ -128,6 +132,10 @@ void ShipComponentDataWeapon::getAttributes(stdvector<std::pair<std::string, Uni
 		attrib += Unicode::narrowToWide(buffer);
 		data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_ammo, attrib));
 	}
+
+	snprintf(buffer, buffer_size, "%d", m_weaponProjectileIndex);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
 }
 
 //======================================================================

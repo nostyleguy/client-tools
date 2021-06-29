@@ -323,7 +323,8 @@ ShipObject::ShipObject(SharedShipObjectTemplate const *newTemplate) :
 	m_weaponEfficiencyRefireRate(),
 	m_weaponAmmoCurrent                      (),
 	m_weaponAmmoMaximum                      (),
-	m_weaponAmmoType                         (),
+	m_weaponAmmoType(),
+	m_weaponProjectileIndex(),
 	m_shieldHitpointsFrontCurrent            (0.0f),
 	m_shieldHitpointsFrontMaximum            (0.0f),
 	m_shieldHitpointsBackCurrent             (0.0f),
@@ -428,6 +429,7 @@ ShipObject::ShipObject(SharedShipObjectTemplate const *newTemplate) :
 	addClientServerVariable    (m_weaponAmmoCurrent);
 	addClientServerVariable    (m_weaponAmmoMaximum);
 	addClientServerVariable    (m_weaponAmmoType);
+	addClientServerVariable    (m_weaponProjectileIndex);
 	addClientServerVariable    (m_chassisComponentMassMaximum);
 	addClientServerVariable    (m_shieldRechargeRate);
 	addClientServerVariable    (m_capacitorEnergyMaximum);
