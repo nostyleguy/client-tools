@@ -13,7 +13,9 @@
 
 #define VC_EXTRALEAN
 
-#include <afxwin.h>
+//#include "afxres.h"
+#include "WinResrc.h"
+#define IDC_STATIC  -1
 
 #pragma warning(disable: 4786)
 
