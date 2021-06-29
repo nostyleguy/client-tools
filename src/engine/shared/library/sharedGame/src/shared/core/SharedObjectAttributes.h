@@ -175,6 +175,7 @@ namespace SharedObjectAttributes
 	MAKE_ATTRIB (ship_component_weapon_energy_per_shot);
 	MAKE_ATTRIB (ship_component_weapon_refire_rate);
 	MAKE_ATTRIB (ship_component_weapon_ammo);
+	MAKE_ATTRIB (ship_component_weapon_projectile_index);
 
 	MAKE_ATTRIB (ship_component_cargo_hold_contents_max);
 
