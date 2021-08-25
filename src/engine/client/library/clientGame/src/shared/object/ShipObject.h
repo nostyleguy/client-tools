@@ -264,7 +264,8 @@ public:
 	float     getComponentHitpointsCurrent             (int chassisSlot) const;
 	float     getComponentHitpointsMaximum             (int chassisSlot) const;
 	int       getComponentFlags                        (int chassisSlot) const;
-	Unicode::String getComponentName                   (int chassisSlot) const;
+	Unicode::String getComponentName(int chassisSlot) const;
+	int       getComponentStyle(int chassisSlot) const;
 
 	//-- weapons
 	//-- The following methods are per weapon
@@ -352,7 +353,7 @@ public:
 	void clientSetCargoHoldContentsCurrent(int cargoHoldContentsCurrent);
 	void clientSetCargoHoldContents(NetworkIdIntMap const & contents);
 	void clientSetCargoHoldContent(NetworkId const & resourceTypeId, int amount);
-
+	void clientSetComponentStyle(int chassisSlot, int style);
 	void clientPurgeComponent(int chassisSlot);
 	bool clientInstallComponentFromData(int chassisSlot, ShipComponentData const & shipComponentData);
 	bool clientPseudoInstallComponent(int chassisSlot, uint32 componentCrc);
@@ -548,6 +549,7 @@ private:
 	stdmap<int, int>::fwd                       m_oldComponentFlags;
 	Archive::AutoDeltaPackedMap<int, Unicode::String> m_componentNames;
 	Archive::AutoDeltaPackedMap<int, NetworkId> m_componentCreators;
+	Archive::AutoDeltaPackedMap<int, int>       m_componentStyles;
 
 	//-- weapons
 	//-- The following maps have one entry per installed weapon .

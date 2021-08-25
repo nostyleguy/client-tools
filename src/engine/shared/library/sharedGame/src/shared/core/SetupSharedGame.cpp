@@ -41,6 +41,7 @@
 #include "sharedGame/ShipComponentAttachmentManager.h"
 #include "sharedGame/ShipComponentDescriptor.h"
 #include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "sharedGame/ShipSlotIdManager.h"
 #include "sharedGame/ShipTurretManager.h"
 #include "sharedGame/SpatialChatManager.h"
@@ -171,7 +172,8 @@ void SetupSharedGame::install (const SetupSharedGame::Data& data)
 	GameLanguageManager::install();
 	ShipChassis::install ();
 	ShipComponentDescriptor::install ();
-	ShipComponentWeaponManager::install ();
+	ShipComponentWeaponManager::install();
+	ShipComponentStyleManager::install();
 	ShipComponentAttachmentManager::install ();
 	ShipSlotIdManager::install ();
 	ShipTurretManager::install ();

@@ -46,6 +46,7 @@ public:
 	int       m_weaponAmmoMaximum;
 	uint32    m_weaponAmmoType;
 	int		  m_weaponProjectileIndex;
+	int       m_style;
 };
 
 //======================================================================

@@ -22,6 +22,7 @@
 #include "sharedGame/ShipComponentDescriptor.h"
 #include "sharedGame/ShipComponentFlags.h"
 #include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "sharedMessageDispatch/Transceiver.h"
 #include "sharedObject/ObjectTemplate.h"
 
@@ -311,6 +312,18 @@ Unicode::String ShipObject::getComponentName(int chassisSlot) const
 
 //----------------------------------------------------------------------
 
+int ShipObject::getComponentStyle(int chassisSlot) const
+{
+	Archive::AutoDeltaMap<int, int, ShipObject>::const_iterator const it = m_componentStyles.find(chassisSlot);
+	if (it != m_componentStyles.end())
+	{
+		return it -> second;
+	}
+	return ShipComponentStyleManager::getDefaultStyleForComponent(getComponentCrc(chassisSlot));
+}
+
+//----------------------------------------------------------------------
+
 float ShipObject::getWeaponDamageMaximum (int chassisSlot) const
 {
 	Archive::AutoDeltaMap<int, float>::const_iterator const it = m_weaponDamageMaximum.find (chassisSlot);
@@ -432,7 +445,7 @@ int ShipObject::getWeaponProjectileIndex(int chassisSlot) const
 	Archive::AutoDeltaMap<int, int>::const_iterator const it = m_weaponProjectileIndex.find(chassisSlot);
 	if (it != m_weaponProjectileIndex.end())
 		return static_cast<int>((*it).second);
-	return 16;
+	return ShipComponentWeaponManager::getDefaultProjectileIndex(getComponentCrc(chassisSlot));
 }
 
 //----------------------------------------------------------------------
@@ -990,6 +1003,16 @@ void ShipObject::clientSetComponentCrc(int const chassisSlot, uint32 const compo
 
 //----------------------------------------------------------------------
 
+void ShipObject::clientSetComponentStyle(int const chassisSlot, int style)
+{
+	if (style == 0)
+		IGNORE_RETURN(m_componentStyles.erase(chassisSlot));
+	else
+		m_componentStyles.set(chassisSlot, style);
+}
+
+//----------------------------------------------------------------------
+
 bool ShipObject::clientSetComponentFlags(int chassisSlot, int flags)
 {
 	if (isSlotInstalled(chassisSlot))
@@ -1306,6 +1329,7 @@ bool ShipObject::clientInstallComponentFromData(int const chassisSlot, ShipCompo
 	}
 	
 	clientSetComponentCrc(chassisSlot, shipComponentData.getDescriptor().getCrc());
+	clientSetComponentStyle(chassisSlot, shipComponentData.m_style);
 
 	shipComponentData.writeDataToShip (chassisSlot, *this);
 

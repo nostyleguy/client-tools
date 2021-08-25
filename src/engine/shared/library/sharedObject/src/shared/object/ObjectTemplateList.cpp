@@ -187,6 +187,14 @@ ConstCharCrcString const ObjectTemplateList::lookUp(uint32 crc)
 
 //----------------------------------------------------------------------
 
+std::string ObjectTemplateList::stringLookUp(uint32 crc)
+{
+	return ms_crcStringTable.stringLookUp(crc);
+}
+
+
+//----------------------------------------------------------------------
+
 void ObjectTemplateList::garbageCollect ()
 {
 	ObjectTemplateListDataResourceList::garbageCollect ();

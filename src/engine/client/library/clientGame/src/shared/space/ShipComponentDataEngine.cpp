@@ -32,7 +32,8 @@ m_engineRollAccelerationRate    (PI),
 m_enginePitchRateMaximum        (PI),
 m_engineYawRateMaximum          (PI),
 m_engineRollRateMaximum         (PI),
-m_engineSpeedMaximum            (50.0f)
+m_engineSpeedMaximum            (50.0f),
+m_style                         (4)
 {
 }
 
@@ -57,7 +58,8 @@ bool ShipComponentDataEngine::readDataFromShip      (int chassisSlot, ShipObject
 	m_enginePitchRateMaximum        = ship.getEnginePitchRateMaximum      ();
 	m_engineYawRateMaximum          = ship.getEngineYawRateMaximum        ();
 	m_engineRollRateMaximum         = ship.getEngineRollRateMaximum       ();
-	m_engineSpeedMaximum            = ship.getEngineSpeedMaximum          ();
+	m_engineSpeedMaximum            = ship.getEngineSpeedMaximum();
+	m_style                         = ship.getComponentStyle(chassisSlot);
 
 	return true;
 }
@@ -82,7 +84,8 @@ void ShipComponentDataEngine::printDebugString      (Unicode::String & result, U
 		"%sEnginePitchRateMaximum:  %f\n"
 		"%sEngineYawRateMaximum:  %f\n"
 		"%sEngineRollRateMaximum:  %f\n"
-		"%sEngineSpeedMaximum:  %f\n",
+		"%sEngineSpeedMaximum:  %f\n"
+		"%sStyle:               %d\n",
 		nPad.c_str (), m_engineAccelerationRate,
 		nPad.c_str (), m_engineDecelerationRate,
 		nPad.c_str (), convertRadiansToDegrees(m_enginePitchAccelerationRate),
@@ -91,7 +94,8 @@ void ShipComponentDataEngine::printDebugString      (Unicode::String & result, U
 		nPad.c_str (), convertRadiansToDegrees(m_enginePitchRateMaximum),
 		nPad.c_str (), convertRadiansToDegrees(m_engineYawRateMaximum),
 		nPad.c_str (), convertRadiansToDegrees(m_engineRollRateMaximum),
-		nPad.c_str (), m_engineSpeedMaximum);
+		nPad.c_str (), m_engineSpeedMaximum,
+		nPad.c_str (), m_style);
 	
 	result += Unicode::narrowToWide (buf);
 }
@@ -121,6 +125,10 @@ void ShipComponentDataEngine::getAttributes(stdvector<std::pair<std::string, Uni
 	snprintf(buffer, buffer_size, "%.1f", m_engineSpeedMaximum);
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_engine_speed_maximum, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================

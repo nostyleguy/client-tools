@@ -49,6 +49,7 @@ protected:
 	ShipComponentDescriptor const * m_descriptor;
 	Unicode::String const           cm_slash;
 	std::string const               cm_shipComponentCategory;
+	std::string const               cm_shipComponentVisualsCategory;
 
 public:
 	float                           m_armorHitpointsCurrent;
@@ -62,6 +63,7 @@ public:
 	int                             m_flags;
 	Unicode::String                 m_name;
 	NetworkId                       m_creator;
+	int								m_style;
 };
 
 //----------------------------------------------------------------------

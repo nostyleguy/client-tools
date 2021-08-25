@@ -36,7 +36,7 @@
 #include "UITreeView.h"
 #include "UITreeView_DataNode.h"
 #include "UIWidget.h"
-
+#include <sstream>
 //======================================================================
 
 namespace SwgCuiShipComponentManagementNamespace
@@ -74,6 +74,7 @@ namespace SwgCuiShipComponentManagementNamespace
 	std::string const cms_associateDroidControlDeviceWithShipCommandName("associateDroidControlDeviceWithShip");
 
 	std::string const cms_shipComponentAttributePre("ship_component.");
+	std::string const cms_shipComponentVisualsAttributePre("ship_component_visuals.");
 
 	float const cms_maxRangeFromTerminal = 16.0f;
 
@@ -1125,28 +1126,15 @@ void SwgCuiShipComponentManagement::updateSelectedComponent(NetworkId const & ob
 			std::vector<std::pair<std::string, Unicode::String> >::iterator startShipComponentsIterator = attribs.begin();
 			std::vector<std::pair<std::string, Unicode::String> >::iterator endShipComponentsIterator = attribs.end();
 
-			//find the slice of attribs that refers to ship components, only use those
+			//find the attribs that refers to ship components, only use those
 			for(std::vector<std::pair<std::string, Unicode::String> >::iterator i = attribs.begin(); i != attribs.end(); ++i)
 			{
-				if(!inShipComponentAttributes)
+				if ((i->first.find(cms_shipComponentAttributePre) != i->first.npos) || (i->first.find(cms_shipComponentVisualsAttributePre) != i->first.npos))
 				{
-					if(i->first.find(cms_shipComponentAttributePre) != i->first.npos) //lint !e737 npos signed/unsigned foolishness
-					{
-						startShipComponentsIterator = i;
-						inShipComponentAttributes = true;
-					}
-				}
-				else
-				{
-					if(i->first.find(cms_shipComponentAttributePre) == i->first.npos) //lint !e737 npos signed/unsigned foolishness
-					{
-						endShipComponentsIterator = i;
-						break;
-					}
+					finalAttribs.push_back(*i);
 				}
 			}
 
-			finalAttribs.insert(finalAttribs.end(), startShipComponentsIterator, endShipComponentsIterator);
 			Unicode::String resultStr;
 			ObjectAttributeManager::formatAttributes(finalAttribs, resultStr, NULL, NULL, false);
 			m_selectedComponentText->SetLocalText(resultStr);
@@ -1154,8 +1142,12 @@ void SwgCuiShipComponentManagement::updateSelectedComponent(NetworkId const & ob
 	
 		Object const * const o = NetworkIdManager::getObjectById(object);
 		ClientObject const * const co = o ? o->asClientObject() : NULL;
-		if(co)
-			m_selectedComponentName->SetLocalText(co->getLocalizedName());
+		if (co) 
+		{
+			std::ostringstream s; 
+			s << Unicode::wideToNarrow(co->getLocalizedName()) << " Style: " << m_ship->getComponentStyle(ms_currentSlot);			
+			m_selectedComponentName->SetLocalText(Unicode::narrowToWide(s.str()));
+		}
 	}
 }
 

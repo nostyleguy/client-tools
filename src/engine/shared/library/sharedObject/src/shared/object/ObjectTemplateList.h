@@ -12,14 +12,13 @@
 // ======================================================================
 
 #include "../../../../../../engine/shared/library/sharedFoundation/include/public/sharedFoundation/Tag.h"
-
+#include <string>
 class ConstCharCrcString;
 class CrcString;
 class CrcStringTable;
 class Iff;
 class Object;
 class ObjectTemplate;
-
 // ======================================================================
 
 class ObjectTemplateList
@@ -57,6 +56,7 @@ public:
 	static void                      loadCrcStringTable(const char *fileName);
 	static ConstCharCrcString const  lookUp(const char * string);
 	static ConstCharCrcString const  lookUp(uint32 crc);
+	static std::string  stringLookUp(uint32 crc);
 
 	static void garbageCollect ();
 

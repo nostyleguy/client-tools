@@ -314,6 +314,7 @@ ShipObject::ShipObject(SharedShipObjectTemplate const *newTemplate) :
 	m_oldComponentFlags(),
 	m_componentNames(),
 	m_componentCreators(),
+	m_componentStyles(),
 	m_weaponDamageMaximum                    (),
 	m_weaponDamageMinimum                    (),
 	m_weaponEffectivenessShields             (),
@@ -420,6 +421,7 @@ ShipObject::ShipObject(SharedShipObjectTemplate const *newTemplate) :
 	addClientServerVariable    (m_componentMass);
 	addClientServerVariable    (m_componentNames);
 	addClientServerVariable    (m_componentCreators);
+	addClientServerVariable    (m_componentStyles);
 	addClientServerVariable    (m_weaponDamageMaximum);
 	addClientServerVariable    (m_weaponDamageMinimum);
 	addClientServerVariable    (m_weaponEffectivenessShields);

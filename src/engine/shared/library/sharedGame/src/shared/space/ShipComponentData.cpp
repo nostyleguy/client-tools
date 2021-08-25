@@ -29,6 +29,7 @@ ShipComponentData::ShipComponentData (ShipComponentDescriptor const & shipCompon
 m_descriptor                   (&shipComponentDescriptor),
 cm_slash                       (Unicode::narrowToWide("/")),
 cm_shipComponentCategory       ("ship_component."),
+cm_shipComponentVisualsCategory("ship_component_visuals."),
 m_armorHitpointsCurrent        (50.0f),
 m_armorHitpointsMaximum        (50.0f),
 m_efficiencyGeneral            (1.0f),
@@ -38,7 +39,8 @@ m_mass                         (0.0f),
 m_hitpointsCurrent             (100.0f),
 m_hitpointsMaximum             (100.0f),
 m_flags                        (ShipComponentFlags::F_lowPower),
-m_name                         ()
+m_name                         (),
+m_style                        (5)
 {
 }
 

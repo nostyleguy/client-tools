@@ -538,6 +538,7 @@
     <ClCompile Include="..\..\src\shared\space\ShipComponentFlags.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized|Win32'">MaxSpeed</Optimization>
     </ClCompile>
+    <ClCompile Include="..\..\src\shared\space\ShipComponentStyleManager.cpp" />
     <ClCompile Include="..\..\src\shared\space\ShipComponentType.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Optimized|Win32'">MaxSpeed</Optimization>
     </ClCompile>
@@ -720,6 +721,7 @@
     <ClInclude Include="..\..\src\shared\space\ShipComponentDescriptor.h" />
     <ClInclude Include="..\..\src\shared\space\ShipComponentDescriptorWritable.h" />
     <ClInclude Include="..\..\src\shared\space\ShipComponentFlags.h" />
+    <ClInclude Include="..\..\src\shared\space\ShipComponentStyleManager.h" />
     <ClInclude Include="..\..\src\shared\space\ShipComponentType.h" />
     <ClInclude Include="..\..\src\shared\space\ShipComponentWeaponManager.h" />
     <ClInclude Include="..\..\src\shared\space\ShipHitEffectsManager.h" />

@@ -48,7 +48,7 @@ bool ClientShipComponentData::readDataFromShip      (int const chassisSlot, Ship
 	m_flags                        = ship.getComponentFlags                        (chassisSlot);
 
 	m_name = ship.getComponentName(chassisSlot);
-
+	m_style = ship.getComponentStyle(chassisSlot);
 	return true;
 }
 

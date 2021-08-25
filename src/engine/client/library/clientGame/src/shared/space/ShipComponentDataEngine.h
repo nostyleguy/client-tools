@@ -45,6 +45,7 @@ public:
 	float m_engineYawRateMaximum;
 	float m_engineRollRateMaximum;
 	float m_engineSpeedMaximum;
+	int   m_style;
 };
 
 //======================================================================

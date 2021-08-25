@@ -10,6 +10,8 @@
 
 #include "clientGame/ShipObject.h"
 #include "sharedGame/SharedObjectAttributes.h"
+#include "sharedGame/ShipComponentWeaponManager.h"
+#include "sharedGame/ShipComponentStyleManager.h"
 #include "UnicodeUtils.h"
 
 //======================================================================
@@ -33,7 +35,8 @@ m_weaponRefireRate           (0.5f),
 m_weaponAmmoCurrent          (0),
 m_weaponAmmoMaximum          (0),
 m_weaponAmmoType             (0),
-m_weaponProjectileIndex      (0)
+m_weaponProjectileIndex      (0),
+m_style                      (4)
 {
 }
 
@@ -59,7 +62,8 @@ bool ShipComponentDataWeapon::readDataFromShip      (int chassisSlot, ShipObject
 	m_weaponAmmoCurrent           = ship.getWeaponAmmoCurrent          (chassisSlot);
 	m_weaponAmmoMaximum           = ship.getWeaponAmmoMaximum          (chassisSlot);
 	m_weaponAmmoType              = ship.getWeaponAmmoType             (chassisSlot);
-	m_weaponProjectileIndex       = ship.getWeaponProjectileIndex(chassisSlot);
+	m_weaponProjectileIndex       = ship.getWeaponProjectileIndex      (chassisSlot);
+	m_style                       = ship.getComponentStyle             (chassisSlot); 
 	return true;
 }
 
@@ -81,14 +85,16 @@ void ShipComponentDataWeapon::printDebugString      (Unicode::String & result, U
 		"%sEnergyPerShot:         %f\n"
 		"%sRefireRate:            %f\n"
 		"%sAmmo:                  (%lu) %d/%d\n"
-		"%sProjectileIndex:       %d\n",
+		"%sProjectileIndex:       %d\n"
+		"%sStyle:                 %d\n",
 		nPad.c_str (), m_weaponDamageMaximum, m_weaponDamageMinimum,
 		nPad.c_str (), m_weaponEffectivenessShields,
 		nPad.c_str (), m_weaponEffectivenessArmor,
 		nPad.c_str (), m_weaponEnergyPerShot,
 		nPad.c_str (), m_weaponRefireRate,
 		nPad.c_str (), m_weaponAmmoType, m_weaponAmmoCurrent, m_weaponAmmoMaximum,
-		nPad.c_str(),  m_weaponProjectileIndex);
+		nPad.c_str (), m_weaponProjectileIndex,
+		nPad.c_str (), m_style);
 
 	result += Unicode::narrowToWide (buf);
 }
@@ -103,9 +109,13 @@ void ShipComponentDataWeapon::getAttributes(stdvector<std::pair<std::string, Uni
 	static char buffer[128];
 	static const size_t buffer_size = sizeof (buffer);
 
-	snprintf(buffer, buffer_size, "%.1f-%.1f", m_weaponDamageMinimum, m_weaponDamageMaximum);
+	snprintf(buffer, buffer_size, "%.1f", m_weaponDamageMinimum);
 	attrib = Unicode::narrowToWide(buffer);
-	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage, attrib));
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage_minimum, attrib));
+
+	snprintf(buffer, buffer_size, "%.1f", m_weaponDamageMaximum);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_damage_maximum, attrib));
 
 	snprintf(buffer, buffer_size, "%.3f", m_weaponEffectivenessShields);
 	attrib = Unicode::narrowToWide(buffer);
@@ -135,7 +145,11 @@ void ShipComponentDataWeapon::getAttributes(stdvector<std::pair<std::string, Uni
 
 	snprintf(buffer, buffer_size, "%d", m_weaponProjectileIndex);
 	attrib = Unicode::narrowToWide(buffer);
-	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_weapon_projectile_index, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================

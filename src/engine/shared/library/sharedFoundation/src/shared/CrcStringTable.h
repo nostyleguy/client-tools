@@ -13,6 +13,7 @@
 
 class ConstCharCrcString;
 class Iff;
+#include <string>
 
 // ======================================================================
 
@@ -29,6 +30,8 @@ public:
 
 	ConstCharCrcString const lookUp(const char * string) const;
 	ConstCharCrcString const lookUp(uint32 crc) const;
+
+	std::string stringLookUp(uint32 crc) const;
 
 	void getAllStrings(stdvector<const char *>::fwd & strings) const;
 

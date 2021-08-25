@@ -25,7 +25,9 @@
 #include "sharedObject/CustomizationData.h"
 #include "sharedObject/Hardpoint.h"
 #include "sharedObject/ObjectTemplateList.h"
-
+#include "sharedFoundation/ConstCharCrcString.h"
+#include <sstream>
+#include <iomanip>
 //======================================================================
 
 namespace ShipObjectAttachmentsNamespace
@@ -380,7 +382,28 @@ void ShipObjectAttachments::updateComponentAttachment (int chassisSlot)
 
 		for (ShipComponentAttachmentManager::TemplateHardpointPairVector::const_iterator thpv_it = thpv.begin (); thpv_it != thpv.end (); ++thpv_it)
 		{
-			uint32 const objectTemplateCrc  = (*thpv_it).first;
+			uint32 const defaultObjectTemplateCrc  = (*thpv_it).first;
+			std::string objectTemplateName = ObjectTemplateList::stringLookUp(thpv_it->first);
+
+			// Regardless of what the installed component's template is, look up the style # from the specific part, and substitute that 
+			// value in the components' template name, e.g, if the style is '2', awing_weapon1_s01.iff becomes awing_weapon_s02.iff.
+			std::size_t it = objectTemplateName.find("_s");
+			if (it != std::string::npos)
+			{
+				std::ostringstream s;
+				s << objectTemplateName.substr(0, it) << "_s" << std::setfill('0') << std::setw(2) << m_ship->getComponentStyle(chassisSlot) << ".iff";
+				objectTemplateName = s.str();
+			}
+
+			// Find the template, and crc, for the new derived template name.
+			CrcString const & objectTemplateCrcString = ObjectTemplateList::lookUp(objectTemplateName.c_str());
+			uint32 objectTemplateCrc = objectTemplateCrcString.getCrc();
+
+			// If the CrC is invalid (some combination of styles that doesn't exist), just use the template we were going to use initially.
+			if (objectTemplateCrc == 0)
+			{
+				objectTemplateCrc = defaultObjectTemplateCrc;
+			}
 			PersistentCrcString const & hardpointName = (*thpv_it).second;
 			
 			if (objectTemplateCrc == 0)

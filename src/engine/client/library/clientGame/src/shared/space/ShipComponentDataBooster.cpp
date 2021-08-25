@@ -29,7 +29,8 @@ m_boosterEnergyMaximum          (100.0f),
 m_boosterEnergyRechargeRate     (20.0f),
 m_boosterEnergyConsumptionRate  (20.0f),
 m_boosterAcceleration           (5.0f),
-m_boosterSpeedMaximum           (10.0f)
+m_boosterSpeedMaximum           (10.0f),
+m_style                         (4)
 {
 }
 
@@ -51,7 +52,8 @@ bool ShipComponentDataBooster::readDataFromShip      (int chassisSlot, ShipObjec
 	m_boosterEnergyRechargeRate     = ship.getBoosterEnergyRechargeRate ();
 	m_boosterEnergyConsumptionRate  = ship.getBoosterEnergyConsumptionRate ();
 	m_boosterAcceleration           = ship.getBoosterAcceleration ();
-	m_boosterSpeedMaximum           = ship.getBoosterSpeedMaximum ();
+	m_boosterSpeedMaximum           = ship.getBoosterSpeedMaximum();
+	m_style                         = ship.getComponentStyle(chassisSlot);
 
 	return true;
 }
@@ -73,13 +75,15 @@ void ShipComponentDataBooster::printDebugString      (Unicode::String & result, 
 		"%sboosterEnergyRechargeRate: %f\n"
 		"%sboosterEnergyConsumptionRate: %f\n"
 		"%sboosterAcceleration: %f\n"
-		"%sboosterSpeedMaximum: %f\n",
+		"%sboosterSpeedMaximum: %f\n"
+		"%sStyle:               %d\n",
 		nPad.c_str (), m_boosterEnergyCurrent,
 		nPad.c_str (), m_boosterEnergyMaximum,
 		nPad.c_str (), m_boosterEnergyRechargeRate,
 		nPad.c_str (), m_boosterEnergyConsumptionRate,
 		nPad.c_str (), m_boosterAcceleration,
-		nPad.c_str (), m_boosterSpeedMaximum);
+		nPad.c_str (), m_boosterSpeedMaximum,
+		nPad.c_str (), m_style);
 	
 	result += Unicode::narrowToWide (buf);
 }
@@ -116,6 +120,10 @@ void ShipComponentDataBooster::getAttributes(stdvector<std::pair<std::string, Un
 	snprintf(buffer, buffer_size, "%.1f", m_boosterSpeedMaximum);
 	attrib = Unicode::narrowToWide(buffer);
 	data.push_back(std::make_pair(cm_shipComponentCategory + SharedObjectAttributes::ship_component_booster_speed_maximum, attrib));
+
+	snprintf(buffer, buffer_size, "%d", m_style);
+	attrib = Unicode::narrowToWide(buffer);
+	data.push_back(std::make_pair(cm_shipComponentVisualsCategory + SharedObjectAttributes::ship_component_style, attrib));
 }
 
 //======================================================================
